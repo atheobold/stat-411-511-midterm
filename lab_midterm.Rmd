@@ -46,12 +46,14 @@ Use the following code to read in the data.
 
 ```{r, warning = FALSE, message = FALSE}
 library(tidyverse)
-profiles <- read_csv("data/profiles.csv")
+profiles <- read_csv("INSERT_PATH_TO_DATA_HERE")
 
 ```
 
 __Provide a description of the process being executed in the code below.__ 
 __(e.g. What procedure is occuring on each line of code?)__ 
+<!-- Your response here! Do not delete this line! -->
+
 
 
 
@@ -66,7 +68,10 @@ male_profiles <- profiles %>%
 ## Part Two 
 
 Using the male_profiles dataset, create visualizations of the distribution of 
-heights for men who identify as straight and those who identify as gay. 
+heights for men who identify as straight and those who identify as gay. Make 
+sure that your plot has:  
+* nice axis labels  
+* a nice title 
 
 ```{r}
 ## Your code to generate a plot of the distribution of heights for straight and 
@@ -85,6 +90,7 @@ The data scientists at OkCupid chose to analyze these data using a permutation
 test for a difference in mean self-reported height. 
 __Do you agree with their decision? Why or why not?__  
 __Be sure to reference the plot you created in Part Two!__ 
+<!-- Your response here! Do not delete this line! -->
 
 
 
@@ -125,18 +131,123 @@ permutations %>%
 
 ## Part Five  
 
-__Based on the results of your statistical test address the following questions__: 
+Based on the results of your permutation test, create a *Results* and 
+*Conclusions* section for a statistical report for these data and research 
+question.  
 
-* What would you conclude for the question the data scientists are interested in?  
+__Results__ 
+<!-- Your response here! Do not delete this line! -->
 
 
-* If there is a difference, could these scientists conclude that sexual
-orientation caued the difference in heights?  
 
 
-* What population can these results be inferred to?  
+__Conclusion__ 
+<!-- Your response here! Do not delete this line! -->
+
+
 
 
 # Question 2 (Paired Data)
+
+Data on the number of males and females who entered in the New York City marathon 
+have been recorded every year since 1978. These data are provided in the 
+ny-marathod-2016.txt file. Social scientists are interested in if over this time
+period, a larger number of males register for the NYC marathon than women. 
+
+## Part One 
+
+Use the following code to read in the data. 
+
+```{r}
+marathon <- read_tsv("data/ny-marathon-2016.txt")
+
+```
+
+__What is the mutate() function doing in the code below.__ 
+__(e.g. How is it modifying the marathon dataset?)__ 
+
+
+```{r}
+marathon <- marathon %>% 
+            rename(Male = Men, Female = Women) %>% 
+            mutate(Diff = Male - Female)
+```
+
+<!-- Your response here! Do not delete this line! -->
+
+
+
+
+## Part Two 
+
+Create a visualization of how the distribution of differences in the number of 
+male and female runners over the last 40 years. Make sure that your plot has:  
+* nice axis labels  
+* a nice title
+
+```{r}
+## Your code to generate a plot of the distribution of differences in male and 
+## female NYC runners goes here!  
+
+marathon %>% 
+  ggplot(aes(x = Diff)) + 
+  geom_density(fill = "tomato")
+
+```
+
+Interpret what you see in the plot you created. Be sure you reference the correct
+order of subtraction used!  
+<!-- Your response here! Do not delete this line! -->
+
+
+
+
+## Part Three 
+
+Using the plot you created in Part Two and the Q-Q plot below, assess whether 
+the assumptions of conducting a t-test are violated. Be sure to address **every**
+assumption associated with conducting a t-test. Justify your decisions based on 
+the information provided about these data and the visualizations. 
+
+```{r}
+run_lm <- lm(Diff ~ 1, data = marathon)
+plot(run_lm, which = 2)
+
+```
+<!-- Your response here! Do not delete this line! -->
+
+
+
+
+## Part Four  
+
+Using the marathon dataset, carry out a t-test to investigate if, over this time
+period, a larger number of males register for the NYC marathon than women. 
+
+```{r}
+## Your code to carry out a t-test for a single mean goes here!  
+
+
+```
+
+
+## Part Five 
+
+Based on the results of your permutation test, create a *Results* and 
+*Conclusions* section for a statistical report for these data and research 
+question.  
+
+__Results__ 
+<!-- Your response here! Do not delete this line! -->
+
+
+
+
+__Conclusion__ 
+<!-- Your response here! Do not delete this line! -->
+
+
+
+
 
 
