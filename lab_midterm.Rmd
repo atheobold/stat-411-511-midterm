@@ -1,0 +1,142 @@
+---
+title: "Take-Home Midterm"
+author: "Your Name Here!"
+date: "10/7/2019"
+output: pdf_document
+---
+
+General instructions: 
+* Be sure that figures and tables are clearly labeled and captioned – this may 
+mean not using R defaults!  
+* When in doubt, answer with a sentence; streams of code and output **do not** 
+constitute a complete answer.    
+* And finally, all work should be your own – no discussion or collaboration with classmates.
+
+
+# Question 1 (Two Sample Data)  
+
+In 2012 data were obtained on 10,933 Okcupid users' profiles. Okcupid is a free 
+dating website, designed by mathematicians, which today has over 112,000 users,
+boasts that over 7.3 million messages per day, and prides themselves on the 
+inclusive nature of their website (all users are welcome).  
+
+The profiles.csv dataset provides an assortment of self reported (user input) variables,  
+
+* age  
+* body type  
+* education  
+* ethnicity  
+* height (in inches)  
+* income  
+* job type  
+* sexual orientation  
+* religion, 
+* sexual identity, 
+* zodiac sign, and   
+* marital status.  
+
+Data analytics at Okcupid uses these data to make the best possible "matches". 
+The data scientists are interested if men's self reported heights differ by 
+sexual orientation.  
+
+
+## Part One 
+
+Use the following code to read in the data. 
+
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse)
+profiles <- read_csv("data/profiles.csv")
+
+```
+
+__Provide a description of the process being executed in the code below.__ 
+__(e.g. What procedure is occuring on each line of code?)__ 
+
+
+
+```{r}
+male_profiles <- profiles %>% 
+                  filter(sex == "m", orientation != "bisexual", 
+                         height > 48, height < 84) %>% 
+                  select(height, orientation) 
+```
+
+
+## Part Two 
+
+Using the male_profiles dataset, create visualizations of the distribution of 
+heights for men who identify as straight and those who identify as gay. 
+
+```{r}
+## Your code to generate a plot of the distribution of heights for straight and 
+## gay men goes here!  
+
+male_profiles %>% 
+  ggplot(aes(x = orientation, y = height)) + 
+  geom_violin(aes(color = orientation))
+
+```
+
+
+## Part Three 
+
+The data scientists at OkCupid chose to analyze these data using a permutation 
+test for a difference in mean self-reported height. 
+__Do you agree with their decision? Why or why not?__  
+__Be sure to reference the plot you created in Part Two!__ 
+
+
+
+
+## Part Four  
+
+Using the male_profiles dataset, carry out a permutation test for a difference 
+in mean self-reported height for men who identify as straight and those who 
+identify as gay.  
+
+```{r}
+## Your code to carry out a permutation test for a difference in means goes here!  
+library(infer)
+
+diff_mean <- male_profiles %>% 
+  specify(height ~ orientation) %>% 
+  calculate(stat = "diff in means", 
+            order = c("straight", "gay")
+            )
+
+permutations <- male_profiles %>% 
+  specify(height ~ orientation) %>% 
+  hypothesize(null = "independence") %>% 
+  generate(type = "permute", reps = 5000) %>% 
+  calculate(stat = "diff in means", 
+            order = c("straight", "gay")
+  )
+  
+get_p_value(permutations, diff_mean, direction = "two_sided")
+
+permutations %>% 
+  visualise(method = "simulation") + 
+  shade_p_value(diff_mean, 
+                direction = "two_sided", 
+                color = "red", 
+                fill = "pink")
+```
+
+## Part Five  
+
+__Based on the results of your statistical test address the following questions__: 
+
+* What would you conclude for the question the data scientists are interested in?  
+
+
+* If there is a difference, could these scientists conclude that sexual
+orientation caued the difference in heights?  
+
+
+* What population can these results be inferred to?  
+
+
+# Question 2 (Paired Data)
+
+
