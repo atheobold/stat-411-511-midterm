@@ -5,11 +5,12 @@ date: "10/7/2019"
 output: pdf_document
 ---
 
-General instructions: 
+General instructions:  
+
 * Be sure that figures and tables are clearly labeled and captioned – this may 
-mean not using R defaults!  
+mean not using R defaults!
 * When in doubt, answer with a sentence; streams of code and output **do not** 
-constitute a complete answer.    
+constitute a complete answer.
 * And finally, all work should be your own – no discussion or collaboration with classmates.
 
 
@@ -20,20 +21,21 @@ dating website, designed by mathematicians, which today has over 112,000 users,
 boasts that over 7.3 million messages per day, and prides themselves on the 
 inclusive nature of their website (all users are welcome).  
 
-The profiles.csv dataset provides an assortment of self reported (user input) variables,  
+The profiles.csv dataset provides an assortment of self reported (user input) 
+variables:    
 
-* age  
-* body type  
-* education  
-* ethnicity  
-* height (in inches)  
-* income  
-* job type  
-* sexual orientation  
-* religion, 
-* sexual identity, 
-* zodiac sign, and   
-* marital status.  
+* age
+* body type
+* education
+* ethnicity
+* height (in inches)
+* income
+* job type
+* sexual orientation
+* religion
+* sexual identity
+* zodiac sign
+* marital status
 
 Data analytics at Okcupid uses these data to make the best possible "matches". 
 The data scientists are interested if men's self reported heights differ by 
@@ -46,12 +48,13 @@ Use the following code to read in the data.
 
 ```{r, warning = FALSE, message = FALSE}
 library(tidyverse)
-profiles <- read_csv("INSERT_PATH_TO_DATA_HERE")
+## Change the code below to specify the correct path to load in the data 
+profiles <- read_csv("data/profiles.csv")
 
 ```
 
 __Provide a description of the process being executed in the code below.__ 
-__(e.g. What procedure is occuring on each line of code?)__ 
+__(e.g. What procedure is occurring on each line of code?)__ 
 <!-- Your response here! Do not delete this line! -->
 
 
@@ -70,6 +73,7 @@ male_profiles <- profiles %>%
 Using the male_profiles dataset, create visualizations of the distribution of 
 heights for men who identify as straight and those who identify as gay. Make 
 sure that your plot has:  
+
 * nice axis labels  
 * a nice title 
 
@@ -79,15 +83,26 @@ sure that your plot has:
 
 male_profiles %>% 
   ggplot(aes(x = orientation, y = height)) + 
-  geom_violin(aes(color = orientation))
+  geom_violin(aes(color = orientation)) + 
+  theme(legend.position = "none") + 
+  labs(x = "Self-Identified Sexual Orientation", 
+       y = "Self-Reported Height (inches)") + 
+  ggtitle("Differences in Self-Reported Height between Straight and Gay Males")
 
 ```
+
+Interpret what you see in the plot you created. Be sure you reference the correct
+order of subtraction used!  
+<!-- Your response here! Do not delete this line! -->
+
+
 
 
 ## Part Three 
 
 The data scientists at OkCupid chose to analyze these data using a permutation 
-test for a difference in mean self-reported height. 
+test for a difference in mean self-reported height.   
+
 __Do you agree with their decision? Why or why not?__  
 __Be sure to reference the plot you created in Part Two!__ 
 <!-- Your response here! Do not delete this line! -->
@@ -101,7 +116,7 @@ Using the male_profiles dataset, carry out a permutation test for a difference
 in mean self-reported height for men who identify as straight and those who 
 identify as gay.  
 
-```{r}
+```{r, cache = TRUE}
 ## Your code to carry out a permutation test for a difference in means goes here!  
 library(infer)
 
@@ -151,14 +166,14 @@ __Conclusion__
 
 Data on the number of males and females who entered in the New York City marathon 
 have been recorded every year since 1978. These data are provided in the 
-ny-marathod-2016.txt file. Social scientists are interested in if over this time
+ny-marathon-2016.txt file. Social scientists are interested in if over this time
 period, a larger number of males register for the NYC marathon than women. 
 
 ## Part One 
 
 Use the following code to read in the data. 
 
-```{r}
+```{r, message = FALSE}
 marathon <- read_tsv("data/ny-marathon-2016.txt")
 
 ```
@@ -182,10 +197,11 @@ marathon <- marathon %>%
 
 Create a visualization of how the distribution of differences in the number of 
 male and female runners over the last 40 years. Make sure that your plot has:  
-* nice axis labels  
+
+* nice axis labels
 * a nice title
 
-```{r}
+```{r, warning = FALSE}
 ## Your code to generate a plot of the distribution of differences in male and 
 ## female NYC runners goes here!  
 
