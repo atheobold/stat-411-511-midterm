@@ -50,7 +50,7 @@ Use the following code to read in the data.
 ```{r, warning = FALSE, message = FALSE}
 library(tidyverse)
 ## Change the code below to specify the correct path to load in the data 
-profiles <- read_csv("data/profiles.csv")
+profiles <- read_csv("PATH_TO_DATA.csv")
 
 ```
 
@@ -113,52 +113,19 @@ __Be sure to reference the plot you created in Part Two!__
 
 ## Part Four  
 
-Using the male_profiles dataset, carry out a permutation test for a difference 
-in mean self-reported height for men who identify as straight and those who 
-identify as gay.  
+Regardless of your opinion of their choice, use the male_profiles data to 
+reproduce the permutation test performed by the original researchers and write 
+a statistical report discussing whether men who identify as straight self-report
+different heights than men who identify as gay.  You may wish to use your 
+answers to previous parts and/or additional analyses as elements of your report.
 
-```{r, cache = TRUE}
+```{r}
 ## Your code to carry out a permutation test for a difference in means goes here!  
-library(infer)
 
-diff_mean <- male_profiles %>% 
-  specify(height ~ orientation) %>% 
-  calculate(stat = "diff in means", 
-            order = c("straight", "gay")
-            )
-
-permutations <- male_profiles %>% 
-  specify(height ~ orientation) %>% 
-  hypothesize(null = "independence") %>% 
-  generate(type = "permute", reps = 5000) %>% 
-  calculate(stat = "diff in means", 
-            order = c("straight", "gay")
-  )
-  
-get_p_value(permutations, diff_mean, direction = "two_sided")
-
-permutations %>% 
-  visualise(method = "simulation") + 
-  shade_p_value(diff_mean, 
-                direction = "two_sided", 
-                color = "red", 
-                fill = "pink")
 ```
 
-## Part Five  
+<!-- Your statistical report goes here! Do not delete this line! -->
 
-Based on the results of your permutation test, create a *Results* and 
-*Conclusions* section for a statistical report for these data and research 
-question.  
-
-__Results__ 
-<!-- Your response here! Do not delete this line! -->
-
-
-
-
-__Conclusion__ 
-<!-- Your response here! Do not delete this line! -->
 
 
 

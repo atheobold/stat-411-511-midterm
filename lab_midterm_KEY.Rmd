@@ -142,11 +142,14 @@ test!
 
 ## Part Four  
 
-Using the male_profiles dataset, carry out a permutation test for a difference 
-in mean self-reported height for men who identify as straight and those who 
-identify as gay.  
+Regardless of your opinion of their choice, use the male_profiles data to 
+reproduce the permutation test performed by the original researchers and write 
+a statistical report discussing whether men who identify as straight self-report
+different heights than men who identify as gay.  You may wish to use your 
+answers to previous parts and/or additional analyses as elements of your report.
 
-```{r, cache = TRUE}
+
+```{r, cache = TRUE, echo = FALSE}
 ## Your code to carry out a permutation test for a difference in means goes here!  
 library(infer)
 
