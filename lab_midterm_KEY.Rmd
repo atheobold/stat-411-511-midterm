@@ -2,18 +2,13 @@
 title: "Take-Home Midterm"
 author: "Your Name Here!"
 date: "10/7/2019"
-output: pdf_document
+output:
+  pdf_document:
+  html_document:
+    toc: yes
+    toc_float: yes
+header-includes: \usepackage{xcolor}
 ---
-
-General instructions:  
-
-* Be sure that figures and tables are clearly labeled and captioned -- this may 
-mean not using R defaults!
-* When in doubt, answer with a sentence; streams of code and output **do not** 
-constitute a complete answer.
-* And finally, all work should be your own -- no discussion or collaboration 
-with classmates.
-
 
 # Question 1  
 
@@ -58,11 +53,21 @@ __Provide a description of the process being executed in the code below.__
 __(e.g. What procedure is occurring on each line of code?)__ 
 <!-- Your response here! Do not delete this line! -->
 
+</br>
 
+\color{blue}
+The first line creates a new variable (object) named `male_profiles`, using the 
+`profiles` dataset. The second line subsets the `profiles` dataset to only be 
+profiles where the person identified as a male who's sexual orientation was not 
+bisexual, and who's heights were between 48 and 84 inches (4 and 7 feet). The 
+last line extracts only the `height` and `orientation` columns from the dataset. 
+\color{black}
 
+</br>
+</br>
 
 ```{r}
-male_profiles <- profiles %>% 
+male_profiles <- profiles %>%  
                   filter(sex == "m", orientation != "bisexual", 
                          height > 48, height < 84) %>% 
                   select(height, orientation) 
@@ -75,7 +80,7 @@ Using the male_profiles dataset, create visualizations of the distribution of
 heights for men who identify as straight and those who identify as gay. Make 
 sure that your plot has:  
 
-* nice axis labels  
+* nice axis labels
 * a nice title 
 
 ```{r}
@@ -92,12 +97,23 @@ male_profiles %>%
 
 ```
 
-Interpret what you see in the plot you created. Be sure you reference the correct
-order of subtraction used!  
+Interpret what you see in the plot you created. Be sure you reference the 
+correct order of subtraction used!  
 <!-- Your response here! Do not delete this line! -->
 
+</br>
 
+\color{blue}
+Based on the side-by-side violin plots, it appears that the self-reported height 
+of gay men has a similar center to that of straight men, but wildly different 
+shapes. The distribution of self-reported height for gay men is very bell-shaped
+and symmetric, with a short right tail. While the center of distribution of 
+heights for straight men is similar to that of gay men, the shape of the 
+distribution is very jagged, with many modes, and has very long tails. 
+\color{black}
 
+</br>
+</br>
 
 ## Part Three 
 
@@ -108,7 +124,20 @@ __Do you agree with their decision? Why or why not?__
 __Be sure to reference the plot you created in Part Two!__ 
 <!-- Your response here! Do not delete this line! -->
 
+</br>
 
+\color{blue}
+Choosing a permutation test over a t-test indicates that the data scientists 
+believed the assumption of normally distributed responses was violated. While 
+the overall shape of the self-reported height of straight men looks normal-esk, 
+I would agree that the multi-mode distribution violates this assumption. However, 
+based on the long tails see in the heights of straight men, the assumption of 
+equal variance may also be violated, causing an issue for using a permutation 
+test! 
+\color{black}
+
+</br>
+</br>
 
 
 ## Part Four  
@@ -143,6 +172,7 @@ permutations %>%
                 direction = "two_sided", 
                 color = "red", 
                 fill = "pink")
+
 ```
 
 ## Part Five  
@@ -151,24 +181,46 @@ Based on the results of your permutation test, create a *Results* and
 *Conclusions* section for a statistical report for these data and research 
 question.  
 
-__Results__ 
+</br>
+
+__Results__   
+
 <!-- Your response here! Do not delete this line! -->
+\color{blue}
+The permutation test for a difference in mean self-reported height resulted in 
+very strong evidence against the null hypothesis (p-value = 0.0108 on 5000 
+simulations) of no difference in mean height between males who identified as gay
+and those who identified as straight. Thus, we conclude that there is a 
+difference in mean self-reported height between straight male users and gay male
+users.  
+\color{black}
 
+</br>
 
+__Conclusion__   
 
-
-__Conclusion__ 
 <!-- Your response here! Do not delete this line! -->
+\color{blue}
+The difference in mean self-reported height between straight male users and gay 
+male users cannot be inferred to the entire population of OkCupid users, as these
+data were not randomly sampled from all possible user profiles. Furthermore, we 
+cannot conclude that sexual orientation causes the difference in self-reported 
+height, as sexual orientation cannot be randomly assigned. Therefor, we can 
+conclude that there is an association between sexual orientation and a 
+difference in self-reported height for these OkCupid users. 
+\color{black}
 
+</br>
+</br>
 
-
+\pagebreak
 
 # Question 2 (Paired Data)
 
 Data on the number of males and females who entered in the New York City marathon 
 have been recorded every year since 1978. These data are provided in the 
 ny-marathon-2016.txt file. Social scientists are interested in if over this time
-period, a larger number of males register for the NYC marathon than women. 
+period, a larger number of females register for the NYC marathon than males. 
 
 ## Part One 
 
@@ -186,12 +238,19 @@ __(e.g. How is it modifying the marathon dataset?)__
 ```{r}
 marathon <- marathon %>% 
             rename(Male = Men, Female = Women) %>% 
-            mutate(Diff = Male - Female)
+            mutate(Diff = Female - Male)
 ```
 
 <!-- Your response here! Do not delete this line! -->
+</br>
 
+\color{blue}
+The `mutate()` function is creating a new variable, named `Diff`, which is the
+difference between the `Male` and `Female` columns (`Female` - `Male`). 
+\color{black}
 
+</br>
+</br>
 
 
 ## Part Two 
@@ -208,7 +267,11 @@ male and female runners over the last 40 years. Make sure that your plot has:
 
 marathon %>% 
   ggplot(aes(x = Diff)) + 
-  geom_density(fill = "tomato")
+  geom_density(fill = "tomato") + 
+  labs(x = "Difference in NYC Marathon Runners (Female - Male)", 
+       y = "Density") + 
+  ggtitle("Differences in Number of NYC Marathon Runners (Female - Male), 
+          for years 1978 to 2016")
 
 ```
 
@@ -216,7 +279,19 @@ Interpret what you see in the plot you created. Be sure you reference the correc
 order of subtraction used!  
 <!-- Your response here! Do not delete this line! -->
 
+</br>
 
+\color{blue}
+Based on the density plot, it appears that most frequently there are around 17 
+more female runners who register for the NYC marathon than male runners. The 
+maximum difference between registrants was about 24 and the minimum difference
+was nearly 11 (more females than males). Overall, the density plot appears 
+fairly bell-shaped and symmetric, with a short, left tail and a long, right 
+tail.
+\color{black}
+
+</br>
+</br>
 
 
 ## Part Three 
@@ -233,7 +308,21 @@ plot(run_lm, which = 2)
 ```
 <!-- Your response here! Do not delete this line! -->
 
+</br>
 
+\color{blue}
+Based on the density plot above and the Normal Q-Q plot, I do not believe the 
+assumption of normally distributed responses is violated. As we saw previously, 
+the distribution of differences appears fairly bell-shaped and symmetric and 
+the Q-Q plot show that only 1 observation deviates substantially from the line. 
+
+The assumption of independence no longer causes concern, after taking the 
+difference of the runners, as we would expect the number of female runners one 
+year to provide information as to how many we could expect the next year. 
+\color{black}
+
+</br>
+</br>
 
 
 ## Part Four  
@@ -243,26 +332,49 @@ period, a larger number of males register for the NYC marathon than women.
 
 ```{r}
 ## Your code to carry out a t-test for a single mean goes here!  
+library(infer)
 
+marathon %>% 
+  t_test(Diff ~ NULL, 
+         alternative = "greater", 
+         mu = 0)
 
 ```
 
 
 ## Part Five 
 
-Based on the results of your permutation test, create a *Results* and 
+Based on the results of your t-test test, create a *Results* and 
 *Conclusions* section for a statistical report for these data and research 
 question.  
+
+</br>
 
 __Results__ 
 <!-- Your response here! Do not delete this line! -->
 
+\color{blue}
+The t-test resulted in very strong evidence against the null hypothesis
+(t-stat = 42.7 on 37 degrees of freedom, p-value $<$ 0.0001) of no difference in 
+number of male and female runners who register for the NYC marathon. Therefore, 
+we conclude that a greater number of female runners register for the NYC 
+marathon than male runners. 
+\color{black}
 
-
+</br>
 
 __Conclusion__ 
 <!-- Your response here! Do not delete this line! -->
 
+\color{blue}
+The findings of these data cannot be generalized to other large scale marathons, 
+as this race was not randomly chosen from all large marathons. However, we can 
+generalize these findings to the years 1978-2016 of the NYC marathon, as we have
+all of the data for these years (a census). We also cannot conclude that being 
+a female causes you to register for the NYC marathon more often, but can say 
+there is an association between being a female and being more predisposed to 
+registering for the NYC marathon. 
+\color{black}
 
 
 
